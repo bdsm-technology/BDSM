@@ -67,6 +67,7 @@ func runProc(profile string, usermode bool) (result proc) {
 	result.done = make(chan bool)
 	go func() {
 		result.cmd.Wait()
+		println() // Add newline after "Quit correctly"
 		result.lock <- struct{}{}
 		result.done <- result.status
 		result.file.Close()
@@ -155,7 +156,7 @@ func run(profile string, usermode bool, prompt *fasttemplate.Template) bool {
 			fmt.Fprintf(lw, "\033[0m%v\033[0m\n", err)
 		} else {
 			if len(result) > 0 {
-				fmt.Fprintf(lw, "\033[0m%s\n\033[0m", replacer.Replace(result))
+				fmt.Fprintf(lw, "\033[0m%s\033[0m", replacer.Replace(result))
 			}
 		}
 	}
