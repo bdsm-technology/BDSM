@@ -76,15 +76,26 @@ func (b bus) complete(line string, pos uint) (result []string, err error) {
 
 // for readline completer
 func (b bus) Do(line []rune, pos int) (newLine [][]rune, length int) {
-	r, err := b.complete(string(line), uint(pos))
+	if len(line) == 0 {
+		newLine = [][]rune{[]rune{'/'}}
+		return
+	}
+	if len(line) == 0 || line[0] != '/' || len(line) != pos {
+		return
+	}
+	r, err := b.complete(string(line), 10000)
 	if err != nil {
 		printWarn(err.Error())
 		return
 	}
+	mx := strings.LastIndexAny(string(line), " /")
+	pfx := string(line[mx+1:])
 	for _, item := range r {
-		newLine = append(newLine, []rune(item))
+		if strings.HasPrefix(item, pfx) {
+			newLine = append(newLine, []rune(item)[pos-mx-1:])
+		}
 	}
-	length = strings.LastIndex(string(line), " ")
+	length = pos
 	return
 }
 
