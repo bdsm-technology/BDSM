@@ -67,7 +67,6 @@ func runProc(profile string, usermode bool) (result proc) {
 	result.done = make(chan bool)
 	go func() {
 		result.cmd.Wait()
-		println() // Add newline after "Quit correctly"
 		result.lock <- struct{}{}
 		result.done <- result.status
 		result.file.Close()
@@ -161,7 +160,7 @@ func run(profile string, usermode bool, prompt *fasttemplate.Template) bool {
 		}
 	}
 	go packOutput(proc.file, func(text string) {
-		fmt.Fprintf(lw, "\033[0m%s\033[0m", text)
+		fmt.Fprintf(lw, "\033[0m%s\n\033[0m", text)
 	})
 	go func() {
 		for v := range bus.log {
