@@ -49,6 +49,32 @@ func main() {
 			},
 		},
 		{
+			Name:    "daemon",
+			Aliases: []string{"d"},
+			Usage:   "Run bedrock server as daemon",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:   "profile, p",
+					Value:  "default",
+					Usage:  "Profile `name`",
+					EnvVar: "profile",
+				},
+				cli.BoolFlag{
+					Name:   "user, u",
+					Usage:  "Using user dbus",
+					EnvVar: "user_dbus",
+				},
+				cli.BoolFlag{
+					Name:  "systemd",
+					Usage: "Systemd mode",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				runDaemon(c.String("profile"), c.Bool("user"), c.Bool("systemd"))
+				return nil
+			},
+		},
+		{
 			Name:    "attach",
 			Aliases: []string{"a"},
 			Usage:   "Attach bedrock server console",
