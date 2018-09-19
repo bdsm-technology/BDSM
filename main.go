@@ -105,6 +105,37 @@ func main() {
 				return nil
 			},
 		},
+		{
+			Name: "mods",
+			Subcommands: cli.Commands{
+				{
+					Name:    "list",
+					Aliases: []string{"l"},
+					Usage:   "List mods",
+					Flags: []cli.Flag{
+						cli.BoolFlag{
+							Name:  "verbose, v",
+							Usage: "Show verbose info",
+						},
+					},
+					Action: func(c *cli.Context) error {
+						modsList, err := scanMods()
+						if err != nil {
+							return err
+						}
+						for name, deps := range modsList {
+							printPair("mod", name)
+							if c.Bool("verbose") {
+								for dep := range deps {
+									printInfo("\t" + dep)
+								}
+							}
+						}
+						return nil
+					},
+				},
+			},
+		},
 	}
 
 	err := app.Run(os.Args)

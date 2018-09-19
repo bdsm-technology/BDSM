@@ -7,6 +7,13 @@
       "label": "build",
       "type": "shell",
       "command": "make",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true
+      },
       "problemMatcher": []
     },
     {
