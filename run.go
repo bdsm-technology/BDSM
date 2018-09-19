@@ -54,13 +54,23 @@ type proc struct {
 	lock   chan struct{}
 }
 
-func runProc(profile string, usermode bool) (result proc) {
-	result.cmd = exec.Command("./bedrock_server")
-	result.cmd.Env = append(result.cmd.Env, "disable_stdout=1", "profile="+profile, "LD_PRELOAD=./ModLoader.so", "LD_LIBRARY_PATH=.:./mods:./libs", "XDG_CACHE_HOME=./cache")
-	if usermode {
-		result.cmd.Env = append(result.cmd.Env, "user_dbus=1")
+func getCommand(profile string, usermode bool) (cmd *exec.Cmd) {
+	_, err := os.Stat("./libs/ld-linux-x86-64.so.2")
+	if err != nil {
+		cmd = exec.Command("./libs/ld-linux-x86-64.so.2", "./bedrock_server")
+	} else {
+		cmd = exec.Command("./bedrock_server")
 	}
-	result.cmd.Dir, _ = os.Getwd()
+	cmd.Env = append(cmd.Env, "disable_stdout=1", "profile="+profile, "LD_PRELOAD=./ModLoader.so", "LD_LIBRARY_PATH=.:./mods:./libs", "XDG_CACHE_HOME=./cache")
+	if usermode {
+		cmd.Env = append(cmd.Env, "user_dbus=1")
+	}
+	cmd.Dir, _ = os.Getwd()
+	return
+}
+
+func runProc(profile string, usermode bool) (result proc) {
+	result.cmd = getCommand(profile, usermode)
 	result.file, _ = pty.Start(result.cmd)
 	result.status = true
 	result.lock = make(chan struct{}, 1)
