@@ -56,7 +56,7 @@ type proc struct {
 
 func getCommand(profile string, usermode bool) (cmd *exec.Cmd) {
 	_, err := os.Stat("./libs/ld-linux-x86-64.so.2")
-	if err != nil {
+	if err == nil {
 		cmd = exec.Command("./libs/ld-linux-x86-64.so.2", "./bedrock_server")
 	} else {
 		cmd = exec.Command("./bedrock_server")
