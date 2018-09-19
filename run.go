@@ -56,7 +56,7 @@ type proc struct {
 
 func runProc(profile string, usermode bool) (result proc) {
 	result.cmd = exec.Command("./bedrock_server")
-	result.cmd.Env = append(result.cmd.Env, "disable_stdout=1", "profile="+profile, "LD_PRELOAD=./libserver_modloader.so", "LD_LIBRARY_PATH=.:./mods:./libs", "XDG_CACHE_HOME=./cache")
+	result.cmd.Env = append(result.cmd.Env, "disable_stdout=1", "profile="+profile, "LD_PRELOAD=./ModLoader.so", "LD_LIBRARY_PATH=.:./mods:./libs", "XDG_CACHE_HOME=./cache")
 	if usermode {
 		result.cmd.Env = append(result.cmd.Env, "user_dbus=1")
 	}
