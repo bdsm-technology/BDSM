@@ -27,9 +27,13 @@ type bus struct {
 	obj  dbus.BusObject
 }
 
-func (b *bus) init(profile string) {
+func (b *bus) init(profile string, usermode bool) {
 	var err error
-	b.conn, err = dbus.SystemBus()
+	if usermode {
+		b.conn, err = dbus.SessionBus()
+	} else {
+		b.conn, err = dbus.SystemBus()
+	}
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Failed to connect to session bus:", err)
 		os.Exit(1)

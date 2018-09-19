@@ -13,7 +13,7 @@ import (
 
 func attach(profile string, usermode, keep bool, prompt *fasttemplate.Template) {
 	var bus bus
-	bus.init(profile)
+	bus.init(profile, usermode)
 	defer bus.close()
 	vs, err := bus.ping()
 	if err != nil {

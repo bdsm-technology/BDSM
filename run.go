@@ -61,7 +61,7 @@ func getCommand(profile string, usermode bool) (cmd *exec.Cmd) {
 	} else {
 		cmd = exec.Command("./bedrock_server")
 	}
-	cmd.Env = append(cmd.Env, "disable_stdout=1", "profile="+profile, "LD_PRELOAD=./ModLoader.so", "LD_LIBRARY_PATH=.:./mods:./libs", "XDG_CACHE_HOME=./cache")
+	cmd.Env = append(os.Environ(), "disable_stdout=1", "profile="+profile, "LD_PRELOAD=./ModLoader.so", "LD_LIBRARY_PATH=.:./mods:./libs", "XDG_CACHE_HOME=./cache")
 	if usermode {
 		cmd.Env = append(cmd.Env, "user_dbus=1")
 	}
@@ -106,7 +106,7 @@ func packOutput(input io.Reader, output func(string)) {
 
 func run(profile string, usermode bool, prompt *fasttemplate.Template) bool {
 	var bus bus
-	bus.init(profile)
+	bus.init(profile, usermode)
 	defer bus.close()
 	_, err := bus.ping()
 	if err == nil {
