@@ -16,6 +16,7 @@ func attach(profile string, usermode, keep bool, prompt *fasttemplate.Template) 
 	bus.init(profile, usermode)
 	defer bus.close()
 	vs, err := bus.ping()
+	printPair("BDSM Version", version)
 	if err != nil {
 		printWarn("Server is not running!")
 		if !keep {

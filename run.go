@@ -113,6 +113,7 @@ func run(profile string, usermode bool, prompt *fasttemplate.Template) bool {
 		printWarn("Server is started by other process")
 		return false
 	}
+	printPair("BDSM Version", version)
 	log, err := os.OpenFile(profile+".log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
 		printWarn("Log File load failed")
