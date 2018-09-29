@@ -22,7 +22,7 @@ func attach(profile string, usermode, keep bool, prompt *fasttemplate.Template) 
 			return
 		}
 	} else {
-		printPair("Server Version: %s", vs)
+		printPair("Server Version", vs)
 	}
 
 	username := "nobody"
