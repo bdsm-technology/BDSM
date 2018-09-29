@@ -1,8 +1,6 @@
 package main
 
-func runDaemon(profile string, usermode, systemd bool) {
+func runDaemon(profile string, usermode bool) {
 	cmd := getCommand(profile, usermode)
-	if systemd {
-		cmd.Wait()
-	}
+	cmd.Wait()
 }

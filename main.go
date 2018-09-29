@@ -64,13 +64,9 @@ func main() {
 					Usage:  "Using user dbus",
 					EnvVar: "user_dbus",
 				},
-				cli.BoolFlag{
-					Name:  "systemd",
-					Usage: "Systemd mode",
-				},
 			},
 			Action: func(c *cli.Context) error {
-				runDaemon(c.String("profile"), c.Bool("user"), c.Bool("systemd"))
+				runDaemon(c.String("profile"), c.Bool("user"))
 				return nil
 			},
 		},

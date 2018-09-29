@@ -92,5 +92,4 @@ func attach(profile string, usermode, keep bool, prompt *fasttemplate.Template) 
 		line = strings.TrimSpace(line)
 		execFn("console", line)
 	}
-	bus.stop()
 }
