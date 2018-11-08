@@ -106,7 +106,7 @@ func packOutput(input io.Reader, output func(string)) {
 
 func run(profile string, usermode bool, prompt *fasttemplate.Template) bool {
 	var bus bus
-	bus.init(profile, usermode)
+	bus.init(profile, usermode, "")
 	defer bus.close()
 	_, err := bus.ping()
 	if err == nil {

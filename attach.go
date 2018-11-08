@@ -11,9 +11,9 @@ import (
 	"github.com/valyala/fasttemplate"
 )
 
-func attach(profile string, usermode, keep bool, prompt *fasttemplate.Template) {
+func attach(profile string, usermode, keep bool, address string, prompt *fasttemplate.Template) {
 	var bus bus
-	bus.init(profile, usermode)
+	bus.init(profile, usermode, address)
 	defer bus.close()
 	vs, err := bus.ping()
 	printPair("BDSM Version", version)

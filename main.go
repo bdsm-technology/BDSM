@@ -87,6 +87,11 @@ func main() {
 					EnvVar: "user_dbus",
 				},
 				cli.StringFlag{
+					Name:   "dbus",
+					Usage:  "Using custom dbus address",
+					EnvVar: "DBUS_STARTER_ADDRESS",
+				},
+				cli.StringFlag{
 					Name:  "prompt",
 					Value: "{{esc}}[0;36;1mbedrock_server:{{esc}}[22m//{{username}}@{{hostname}}$ {{esc}}[33;0m",
 					Usage: "Prompt `template`",
@@ -97,7 +102,7 @@ func main() {
 				},
 			},
 			Action: func(c *cli.Context) error {
-				attach(c.String("profile"), c.Bool("user"), c.Bool("force"), fasttemplate.New(c.String("prompt"), "{{", "}}"))
+				attach(c.String("profile"), c.Bool("user"), c.Bool("force"), c.String("dbus"), fasttemplate.New(c.String("prompt"), "{{", "}}"))
 				return nil
 			},
 		},

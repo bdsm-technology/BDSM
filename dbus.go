@@ -27,9 +27,11 @@ type bus struct {
 	obj  dbus.BusObject
 }
 
-func (b *bus) init(profile string, usermode bool) {
+func (b *bus) init(profile string, usermode bool, custom string) {
 	var err error
-	if usermode {
+	if len(custom) > 0 {
+		b.conn, err = dbus.Dial(custom)
+	} else if usermode {
 		b.conn, err = dbus.SessionBus()
 	} else {
 		b.conn, err = dbus.SystemBus()
